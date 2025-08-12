@@ -412,7 +412,7 @@ export default function OmPortfolio(){
             <textarea className="md:col-span-2 p-4 rounded-xl bg-white/5 border border-white/6 h-36" placeholder="What’s up?" />
             <div className="flex items-center gap-3">
               <button type="submit" className="px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-indigo-500 text-black font-semibold">Send</button>
-              <div className="text-sm text-white/60">Or email directly at <a className="underline" href="mailto:you@domain.com">you@domain.com</a></div>
+              <div className="text-sm text-white/60">Or email directly at <a className="underline" href="mailto:omengshetti@gmail.com">omengshetti@gmail.com</a></div>
             </div>
           </motion.form>
         </section>
