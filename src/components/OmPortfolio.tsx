@@ -389,10 +389,10 @@ export default function OmPortfolio(){
 
             <aside className="p-6 rounded-2xl bg-white/4">
               <h4 className="font-semibold">Contact</h4>
-              <div className="mt-3 text-sm text-white/70">Email: <a className="underline" href="mailto:you@domain.com">you@domain.com</a></div>
+              <div className="mt-3 text-sm text-white/70">Email: <a className="underline" href="mailto:omengshetti@gmail.com ">omengshetti@gmail.com </a></div>
               <div className="mt-3 flex gap-2 text-xs">
-                <a className="px-3 py-2 rounded-md bg-white/6" href="#">GitHub</a>
-                <a className="px-3 py-2 rounded-md bg-white/6" href="#">LinkedIn</a>
+                <a className="px-3 py-2 rounded-md bg-white/6" href="https://github.com/omiiii21">GitHub</a>
+                <a className="px-3 py-2 rounded-md bg-white/6" href="https://www.linkedin.com/in/ommengshetti/">LinkedIn</a>
               </div>
 
               <div className="mt-6">
