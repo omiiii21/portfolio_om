@@ -17,6 +17,7 @@ Notes:
 import React from 'react'
 import { type ReactNode } from "react";
 import { motion, AnimatePresence } from 'framer-motion'
+import { Analytics } from "@vercel/analytics/next"
 
 
 // Small helper components inside the file so it's a single-file scaffold.
@@ -233,7 +234,7 @@ export default function OmPortfolio(){
             <div className="absolute -right-8 -bottom-8 w-40 h-40 rounded-full bg-gradient-to-br from-cyan-400 to-indigo-500 blur-xl opacity-30" />
           </div>
         </section> */}
-
+        <Analytics />
         <AnimatePresence mode="wait">
         <section
             key="hero-section"
