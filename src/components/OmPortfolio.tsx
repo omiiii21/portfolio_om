@@ -17,7 +17,7 @@ Notes:
 import React from 'react'
 import { type ReactNode } from "react";
 import { motion, AnimatePresence } from 'framer-motion'
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 
 // Small helper components inside the file so it's a single-file scaffold.
