@@ -7,6 +7,7 @@ export type Project = {
   tag: string
   blurb: string
   badges: string[]
+  accentColor?: 'blue' | 'green' | 'purple'
 }
 
 export type Skill = {

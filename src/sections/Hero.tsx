@@ -62,11 +62,11 @@ const Hero: React.FC = () => {
             </div>
             <div className="p-3 rounded-2xl bg-black/[.05] dark:bg-white/3">
               <div className="text-xs">Years Experience</div>
-              <div className="text-2xl font-semibold mt-1">6+</div>
+              <div className="text-2xl font-semibold mt-1">2+</div>
             </div>
             <div className="p-3 rounded-2xl bg-black/[.05] dark:bg-white/3">
               <div className="text-xs">Projects</div>
-              <div className="text-2xl font-semibold mt-1">20+</div>
+              <div className="text-2xl font-semibold mt-1">10+</div>
             </div>
           </div>
         </div>

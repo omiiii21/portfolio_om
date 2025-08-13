@@ -2,28 +2,34 @@ import type { Project } from '../types/portfolio'
 
 export const projects: Project[] = [
   {
-    title: 'TCA Report Runner (ETL & Scheduler)',
-    blurb: 'High-throughput ETL/Report generation system with multiprocessing, centralized logging, and robust retry semantics.',
-    badges: ['Python', 'Multiprocessing', 'RabbitMQ'],
-    tag: 'Open-source style',
+    title: 'You Betcha (Betting Platform)',
+    blurb:
+      'Developed sports betting platform with memory-first architecture and asynchronous processing. Implemented custom order book with heapq-based priority queues achieving ~50ms per match operation. Built WebSocket market data distribution with Redis pub/sub and a real-time risk engine.',
+    badges: ['Python', 'Async', 'FastAPI', 'Redis', 'Kafka', 'PostgreSQL', 'Docker', 'WebSockets'],
+    tag: 'Platform',
     link: '#projects',
-    icon: '⚙️',
+    icon: '🎯',
+    accentColor: 'blue',
   },
   {
-    title: 'Realtime Event Ingestion',
-    blurb: 'Event-driven microservices architecture using FastAPI + RabbitMQ to deliver near-real-time processing pipelines.',
-    badges: ['FastAPI', 'Docker', 'Kafka/RabbitMQ'],
-    tag: 'Design + Code',
+    title: 'StockSense (Trade automation)',
+    blurb:
+      'Researched market mood index using factors like India VIX, OI, Volume, theta decay. Improved win rate from 42.8% → 80.42%. Built indicator-driven strategies yielding ~46.34% average gross profit across live and historical data; added price-action analysis via chart patterns.',
+    badges: ['TradingView', 'PineScript', 'Streak', 'NSE OI', 'Excel', 'Matplotlib'],
+    tag: 'Automation',
     link: '#projects',
-    icon: '📡',
+    icon: '📈',
+    accentColor: 'green',
   },
   {
-    title: 'Large-scale Data ETL (R -> Python migration)',
-    blurb: 'Converted and optimized legacy R ETL scripts to Python with multiprocessing and better observability and SFTP integrations.',
-    badges: ['R', 'Python', 'SFTP'],
-    tag: 'Migration',
+    title: 'Finfit (Gamified Personal Finance)',
+    blurb:
+      'Prototype of a gamified expense tracking and financial literacy app for young adults. Daily quizzes, customizable avatars, and intuitive tracking to encourage better saving and spending habits.',
+    badges: ['Figma', 'Python', 'Django REST', 'Excel'],
+    tag: 'Prototype',
     link: '#projects',
-    icon: '🔁',
+    icon: '🧩',
+    accentColor: 'purple',
   },
 ]
 
