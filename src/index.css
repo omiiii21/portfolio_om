@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tailwind v4: use class-based dark mode via custom variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Add any custom CSS below if needed
 @tailwind base;
 @tailwind components;
@@ -17,3 +20,4 @@
 a {
   @apply text-blue-600 hover:text-blue-800 underline;
 } */
+  
