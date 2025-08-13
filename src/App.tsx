@@ -3,6 +3,7 @@ import DefaultLayout from './layouts/DefaultLayout';
 import Hero from './sections/Hero';
 import Skills from './sections/Skills';
 import Projects from './sections/Projects';
+import ResearchPapers from './sections/ResearchPapers';
 import { projects } from './data/projects'
 import { skills } from './data/skills'
 import About from './sections/About';
@@ -18,6 +19,7 @@ function App() {
       <Hero />
       <Skills skills={skills} />
       <Projects projects={projects} />
+      <ResearchPapers />
       <About />
       <Contact />
     </DefaultLayout>
