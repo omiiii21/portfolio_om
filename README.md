@@ -1,5 +1,5 @@
 
-# 🚀 Personal Portfolio Website
+# 🚀 Om's Personal Portfolio Website
 
 A modern, responsive personal portfolio website built with React, TypeScript, and Tailwind CSS. Designed to showcase projects, skills, and professional experience with a clean, minimal aesthetic.
 
