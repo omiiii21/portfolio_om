@@ -22,7 +22,7 @@ type DefaultLayoutProps = {
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen relative overflow-hidden font-sans bg-white text-gray-900 dark:bg-[#05060b] dark:text-white">
+      <div className="min-h-screen relative overflow-hidden font-sans bg-white text-gray-900 dark:bg-[#05060b] dark:text-white transition-colors duration-700 ease-in-out">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded focus:bg-indigo-600 focus:text-white">Skip to content</a>
       <WaveBackground />
 
@@ -47,7 +47,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
         {children}
       </main>
 
-      <footer className="py-8 border-t border-gray-200 text-gray-600 dark:border-white/6 dark:text-white/60 text-sm text-center">© {new Date().getFullYear()} Om Mengshetti — Built with React, Tailwind & Framer Motion</footer>
+        <footer className="py-8 border-t border-gray-200 text-gray-600 dark:border-white/6 dark:text-white/60 text-sm text-center transition-colors duration-700 ease-in-out">© {new Date().getFullYear()} Om Mengshetti — Built with React, Tailwind & Framer Motion</footer>
     </div>
   )
 }
