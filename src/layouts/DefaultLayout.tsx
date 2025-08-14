@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ThemeToggle from '../components/ThemeToggle'
+import { AnimatePresence, motion } from 'framer-motion'
 
 const WaveBackground: React.FC = () => (
   <svg className="absolute inset-0 w-full h-full -z-10 hidden dark:block" preserveAspectRatio="none" viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg">
@@ -34,13 +35,14 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
             <div className="text-[12px] text-gray-500 dark:text-white/60">Quant • Data • Systems</div>
           </div>
         </div>
-        <nav className="flex items-center gap-4" aria-label="Primary">
+        <nav className="hidden md:flex items-center gap-4" aria-label="Primary">
           <a className="text-sm px-3 py-1 rounded-md hover:bg-black/5 dark:hover:bg-white/4 transition" href="#projects">Work</a>
           <a className="text-sm px-3 py-1 rounded-md hover:bg-black/5 dark:hover:bg-white/4 transition" href="#skills">Skills</a>
           <a className="text-sm px-3 py-1 rounded-md hover:bg-black/5 dark:hover:bg-white/4 transition" href="#about">About</a>
           <a className="text-sm px-3 py-1 rounded-md bg-gradient-to-r from-cyan-400 to-indigo-500 text-black font-medium" href="#contact">Contact</a>
           <ThemeToggle />
         </nav>
+        <MobileNav />
       </header>
 
       <main id="main" className="max-w-6xl mx-auto px-6 py-12">
@@ -53,5 +55,69 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 }
 
 export default DefaultLayout
+
+const MobileNav: React.FC = () => {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="md:hidden">
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
+        <button
+          type="button"
+          aria-label="Open menu"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          onClick={() => setOpen((v) => !v)}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-md border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 transition"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-800 dark:text-white">
+            {open ? (
+              <path d="M18 6L6 18M6 6l12 12" />
+            ) : (
+              <>
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </>
+            )}
+          </svg>
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.button
+              aria-label="Close menu"
+              className="fixed inset-0 z-40 bg-black/30 dark:bg-black/50"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setOpen(false)}
+            />
+            <motion.div
+              id="mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              className="fixed z-50 top-0 right-0 left-0 mt-[64px] mx-4 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0b0e1a] shadow-xl"
+              initial={{ y: -12, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -12, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <nav className="p-3" onClick={() => setOpen(false)}>
+                <a className="block px-3 py-2 rounded-md hover:bg-black/5 dark:hover:bg-white/10" href="#projects">Work</a>
+                <a className="block px-3 py-2 rounded-md hover:bg-black/5 dark:hover:bg-white/10" href="#skills">Skills</a>
+                <a className="block px-3 py-2 rounded-md hover:bg-black/5 dark:hover:bg-white/10" href="#about">About</a>
+                <a className="block px-3 py-2 rounded-md bg-gradient-to-r from-cyan-400 to-indigo-500 text-black font-medium" href="#contact">Contact</a>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
 
 
