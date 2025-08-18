@@ -52,8 +52,41 @@ const About: React.FC = () => {
           </div>
 
           <div className="mt-6">
-            <h5 className="text-sm font-medium">Download CV</h5>
-            <a className="mt-2 inline-block px-4 py-2 rounded-md bg-gradient-to-r from-cyan-400 to-indigo-500 text-black" href="#">PDF</a>
+            <div className="mt-2 group inline-block w-full rounded-xl border border-black/10 dark:border-white/10 overflow-hidden transition-shadow group-hover:shadow-lg">
+              <div className="px-5 py-2 bg-gradient-to-r from-cyan-400 to-indigo-500 text-black font-medium">
+                <span className="transition-opacity duration-200 group-hover:opacity-0">Resume</span>
+              </div>
+              <div className="transition-all duration-300 max-h-0 opacity-0 translate-y-2 group-hover:max-h-[520px] group-hover:opacity-100 group-hover:translate-y-0">
+                <div className="relative bg-white dark:bg-black">
+                  <img
+                    src="https://drive.google.com/thumbnail?id=1fvurntzc3RPMGsz6s3UGczvaOUmUWnWz&sz=w2000"
+                    alt="Resume preview"
+                    className="w-full h-64 object-cover object-top"
+                  />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white dark:from-black to-transparent" />
+                </div>
+                <div className="py-3 flex items-center justify-center gap-4">
+                  <a
+                    href="https://drive.google.com/file/d/1fvurntzc3RPMGsz6s3UGczvaOUmUWnWz/view"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Resume"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-black/[.05] dark:bg-white/10 hover:bg-black/[.08] dark:hover:bg-white/12 transition"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+                    <span className="text-sm">View</span>
+                  </a>
+                  <a
+                    href="https://drive.google.com/uc?export=download&id=1fvurntzc3RPMGsz6s3UGczvaOUmUWnWz"
+                    aria-label="Download Resume"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-black/15 dark:border-white/10 hover:bg-black/[.05] dark:hover:bg-white/5 transition"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4.007 4.007a1 1 0 0 1-1.414 0L7.279 11.707a1 1 0 0 1 1.414-1.414L11 12.586V4a1 1 0 0 1 1-1z"/><path d="M5 17a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a1 1 0 0 1 2 0z"/></svg>
+                    <span className="text-sm">Download</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </aside>
       </div>
