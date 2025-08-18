@@ -28,7 +28,7 @@ const ThemeToggle: React.FC = () => {
     <button
       type="button"
       aria-label="Toggle dark mode"
-      className="text-xs px-1 py-1 rounded-md border border-white/10 hover:bg-white/5 transition"
+      className="text-xs px-1 py-1 rounded-md border border-black/15 dark:border-white/10 hover:bg-black/[.05] dark:hover:bg-white/5 transition"
       onClick={() => {
         const next = theme === 'dark' ? 'light' : 'dark'
         const html = document.documentElement
