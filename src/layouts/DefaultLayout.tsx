@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ThemeToggle from '../components/ThemeToggle'
 import { AnimatePresence, motion } from 'framer-motion'
+import Starfield from '../components/Starfield'
 
 const WaveBackground: React.FC = () => (
   <svg className="absolute inset-0 w-full h-full -z-10 hidden dark:block" preserveAspectRatio="none" viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +27,9 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       <div className="min-h-screen relative overflow-hidden font-sans bg-white text-gray-900 dark:bg-[#05060b] dark:text-white transition-colors duration-700 ease-in-out">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded focus:bg-indigo-600 focus:text-white">Skip to content</a>
       <WaveBackground />
+      <Starfield />
 
+      <div className="relative z-10">
       <header className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center font-bold text-black">OM</div>
@@ -50,6 +53,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       </main>
 
         <footer className="py-8 border-t border-gray-200 text-gray-600 dark:border-white/6 dark:text-white/60 text-sm text-center transition-colors duration-700 ease-in-out">© {new Date().getFullYear()} Om Mengshetti — Built with React, Tailwind & Framer Motion</footer>
+      </div>
     </div>
   )
 }

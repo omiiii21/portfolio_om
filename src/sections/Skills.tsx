@@ -7,7 +7,7 @@ type SkillsProps = { skills: Skill[] }
 
 const Skills: React.FC<SkillsProps> = ({ skills }) => {
   return (
-    <section id="skills" className="mt-14" aria-labelledby="skills-heading">
+    <section id="skills" className="mt-34" aria-labelledby="skills-heading">
       <motion.h2 id="skills-heading" initial={{ x: -20, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} className="text-2xl font-semibold">
         Skills & Tech Stack
       </motion.h2>

@@ -74,7 +74,7 @@ const About: React.FC = () => {
                     className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-black/[.05] dark:bg-white/10 hover:bg-black/[.08] dark:hover:bg-white/12 transition"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
-                    <span className="text-sm">View</span>
+                    {/* <span className="text-sm">View</span> */}
                   </a>
                   <a
                     href="https://drive.google.com/uc?export=download&id=1fvurntzc3RPMGsz6s3UGczvaOUmUWnWz"
@@ -82,7 +82,7 @@ const About: React.FC = () => {
                     className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-black/15 dark:border-white/10 hover:bg-black/[.05] dark:hover:bg-white/5 transition"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4.007 4.007a1 1 0 0 1-1.414 0L7.279 11.707a1 1 0 0 1 1.414-1.414L11 12.586V4a1 1 0 0 1 1-1z"/><path d="M5 17a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a1 1 0 0 1 2 0z"/></svg>
-                    <span className="text-sm">Download</span>
+                    {/* <span className="text-sm">Download</span> */}
                   </a>
                 </div>
               </div>
