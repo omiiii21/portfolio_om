@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import ThemeToggle from '../components/ThemeToggle'
 import { AnimatePresence, motion } from 'framer-motion'
 import Starfield from '../components/Starfield'
+import DotGrid from '../components/DotGrid'
+import { IdleProvider } from '../context/IdleContext'
 
 const WaveBackground: React.FC = () => (
   <svg className="absolute inset-0 w-full h-full -z-10 hidden dark:block" preserveAspectRatio="none" viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg">
@@ -22,12 +24,13 @@ type DefaultLayoutProps = {
   children: React.ReactNode
 }
 
-const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
+const DefaultLayoutInner: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
       <div className="min-h-screen relative overflow-hidden font-sans bg-white text-gray-900 dark:bg-[#05060b] dark:text-white transition-colors duration-700 ease-in-out">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded focus:bg-indigo-600 focus:text-white">Skip to content</a>
       <WaveBackground />
       <Starfield />
+      <DotGrid />
 
       <div className="relative z-10">
       <header className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
@@ -57,6 +60,12 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     </div>
   )
 }
+
+const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => (
+  <IdleProvider idleDelayMs={1200}>
+    <DefaultLayoutInner>{children}</DefaultLayoutInner>
+  </IdleProvider>
+)
 
 export default DefaultLayout
 

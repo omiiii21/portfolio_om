@@ -1,13 +1,18 @@
 import React from 'react'
+import { useIdle } from '../context/IdleContext'
 import { motion } from 'framer-motion'
 import type { Project } from '../types/portfolio'
 
 export type ProjectCardProps = { p: Project }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ p }) => (
+const ProjectCard: React.FC<ProjectCardProps> = ({ p }) => {
+  const { isIdle } = useIdle()
+  const darkBg = isIdle ? 'dark:from-[#0b0e1a] dark:to-[#0b0e1a]' : 'dark:from-white/3 dark:to-white/2'
+  const lightBg = isIdle ? 'from-gray-50 to-gray-100' : 'from-black/[.03] to-black/[.05]'
+  return (
   <motion.div
     whileHover={{ y: -2 }}
-    className="group relative overflow-hidden rounded-2xl p-5 pb-12 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-black/[.03] to-black/[.05] dark:from-white/3 dark:to-white/2 border-l-4 border-cyan-500 dark:border-l-cyan-500"
+    className={`group relative overflow-hidden rounded-2xl p-5 pb-12 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br ${lightBg} ${darkBg} border-l-4 border-cyan-500 dark:border-l-cyan-500`}
     aria-label={`${p.title} — ${p.tag}`}
   >
     {/* Single accent slide overlay (uniform color) */}
@@ -45,7 +50,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ p }) => (
       </a>
     </div>
   </motion.div>
-)
+)}
 
 export default ProjectCard
 

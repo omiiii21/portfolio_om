@@ -1,22 +1,30 @@
 import React from 'react'
+import { useIdle } from '../context/IdleContext'
 import { motion } from 'framer-motion'
 
 const About: React.FC = () => {
+  const { isIdle } = useIdle()
+  const mainDark = isIdle ? 'dark:bg-[#0b0e1a]' : 'dark:bg-white/3'
+  const tileDark = isIdle ? 'dark:bg-[#0f1324]' : 'dark:bg-white/5'
+  const asideDark = isIdle ? 'dark:bg-[#0f1324]' : 'dark:bg-white/4'
+  const mainLight = isIdle ? 'bg-gray-50' : 'bg-black/[.03]'
+  const tileLight = isIdle ? 'bg-gray-100' : 'bg-black/[.05]'
+  const asideLight = isIdle ? 'bg-gray-100' : 'bg-black/[.04]'
   return (
     <section id="about" className="mt-14">
       <motion.h2 initial={{ x: -20, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} className="text-2xl font-semibold">
         About
       </motion.h2>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 rounded-2xl p-6 bg-black/[.03] dark:bg-white/3">
+        <div className={`md:col-span-2 rounded-2xl p-6 ${mainLight} ${mainDark}`}>
           <p className="text-gray-700 dark:text-white/80">I build robust data systems and pipelines. My focus is on production-grade engineering — observability, fault-tolerance, and maintainable code. I enjoy working on complex engineering problems involving data: distributed ETL, streaming ingestion, scheduling and orchestration, and scalable analytics platforms.</p>
 
           <div className="mt-6 grid grid-cols-2 gap-3">
-            <div className="p-3 rounded-lg bg-black/[.05] dark:bg-white/5">
+            <div className={`p-3 rounded-lg ${tileLight} ${tileDark}`}>
               <div className="text-xs text-gray-500 dark:text-white/60">Core Strength</div>
               <div className="font-medium mt-1">Systems design & data pipelines</div>
             </div>
-            <div className="p-3 rounded-lg bg-black/[.05] dark:bg-white/5">
+            <div className={`p-3 rounded-lg ${tileLight} ${tileDark}`}>
               <div className="text-xs text-gray-500 dark:text-white/60">Currently learning</div>
               <div className="font-medium mt-1">Advanced Spark tuning & cloud infra</div>
             </div>
@@ -43,7 +51,7 @@ const About: React.FC = () => {
           </div>
         </div>
 
-        <aside className="p-6 rounded-2xl bg-black/[.04] dark:bg-white/4">
+        <aside className={`p-6 rounded-2xl ${asideLight} ${asideDark}`}>
           <h4 className="font-semibold">Contact</h4>
           <div className="mt-3 text-sm text-gray-600 dark:text-white/70">Email: <a className="underline" href="mailto:omengshetti@gmail.com ">omengshetti@gmail.com </a></div>
           <div className="mt-3 flex gap-2 text-xs">
@@ -71,7 +79,7 @@ const About: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="View Resume"
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-black/[.05] dark:bg-white/10 hover:bg-black/[.08] dark:hover:bg-white/12 transition"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/12 transition"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
                     {/* <span className="text-sm">View</span> */}

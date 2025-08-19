@@ -1,7 +1,11 @@
 import React from 'react'
+import { useIdle } from '../context/IdleContext'
 import { motion } from 'framer-motion'
 
 const ResearchPapers: React.FC = () => {
+  const { isIdle } = useIdle()
+  const darkBg = isIdle ? 'dark:from-[#0b0e1a] dark:to-[#0b0e1a]' : 'dark:from-white/3 dark:to-white/4'
+  const lightBg = isIdle ? 'from-gray-50 to-gray-100' : 'from-black/[.03] to-black/[.06]'
   return (
     <section id="research-papers" className="mt-14" aria-labelledby="research-heading">
       <motion.h2
@@ -16,7 +20,7 @@ const ResearchPapers: React.FC = () => {
 
       <div className="mt-6 flex flex-col gap-8">
         {/* Paper 1 */}
-        <div className="group relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-white/3 dark:to-white/4 border-l-4 border-blue-500 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 p-6">
+        <div className={`group relative overflow-hidden bg-gradient-to-br ${lightBg} ${darkBg} border-l-4 border-blue-500 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 p-6`}>
           {/* hover fill overlay (desktop) */}
           <div className="pointer-events-none absolute inset-0 translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out bg-gradient-to-l from-blue-500/20 to-transparent dark:from-blue-400/15" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -54,7 +58,7 @@ const ResearchPapers: React.FC = () => {
         </div>
 
         {/* Paper 2 */}
-        <div className="group relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-white/3 dark:to-white/4 border-l-4 border-green-500 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 p-6">
+        <div className={`group relative overflow-hidden bg-gradient-to-br ${lightBg} ${darkBg} border-l-4 border-green-500 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 p-6`}>
           <div className="pointer-events-none absolute inset-0 translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out bg-gradient-to-l from-green-500/20 to-transparent dark:from-green-400/15" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             📊 Technical Analysis of Stock Market Trends using LSTM for Price Prognosis
@@ -89,7 +93,7 @@ const ResearchPapers: React.FC = () => {
         </div>
 
         {/* Paper 3 */}
-        <div className="group relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-white/3 dark:to-white/4 border-l-4 border-purple-500 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 p-6">
+        <div className={`group relative overflow-hidden bg-gradient-to-br ${lightBg} ${darkBg} border-l-4 border-purple-500 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 p-6`}>
           <div className="pointer-events-none absolute inset-0 translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out bg-gradient-to-l from-purple-500/20 to-transparent dark:from-purple-400/15" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             📈 Apache Spark for Analysis of EHR: A Case Study of Diabetes Management

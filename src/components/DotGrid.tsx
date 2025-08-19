@@ -1,74 +1,65 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useIdle } from '../context/IdleContext'
 
-type Star = {
-  x: number
-  y: number
-  size: number
-  baseAlpha: number
-  twinklePhase: number
-  twinkleSpeed: number
+type Layer = {
+  pattern: CanvasPattern
+  tileSize: number
+  velocityX: number
+  velocityY: number
+  offsetX: number
+  offsetY: number
 }
 
-type Layer = {
-  stars: Star[]
-  velocityX: number // px per second
-  velocityY: number // px per second
+type DotGridProps = {
+  idleDelayMs?: number
 }
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value))
 
-const createStars = (
-  count: number,
-  width: number,
-  height: number,
-  sizeRange: [number, number]
-): Star[] => {
-  const [minSize, maxSize] = sizeRange
-  const stars: Star[] = []
-  for (let i = 0; i < count; i++) {
-    stars.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: minSize + Math.random() * (maxSize - minSize),
-      baseAlpha: 0.4 + Math.random() * 0.6,
-      twinklePhase: Math.random() * Math.PI * 2,
-      twinkleSpeed: 0.5 + Math.random() * 1.0,
-    })
-  }
-  return stars
+const createDotTile = (
+  tileSize: number,
+  dotRadius: number,
+  color: string,
+  dpr: number
+): { pattern: CanvasPattern; tileSize: number } => {
+  const tileCanvas = document.createElement('canvas')
+  // Create tile in CSS px size
+  tileCanvas.width = Math.max(1, Math.floor(tileSize * dpr))
+  tileCanvas.height = Math.max(1, Math.floor(tileSize * dpr))
+  const tctx = tileCanvas.getContext('2d')!
+  // Draw dot at center with DPR-aware size
+  tctx.fillStyle = color
+  tctx.beginPath()
+  tctx.arc((tileSize * dpr) / 2, (tileSize * dpr) / 2, dotRadius * dpr, 0, Math.PI * 2)
+  tctx.fill()
+
+  const pattern = tctx.createPattern(tileCanvas, 'repeat')!
+  return { pattern, tileSize }
 }
 
-type StarfieldProps = {
-  idleDelayMs?: number
-}
-
-const Starfield: React.FC<StarfieldProps> = ({ idleDelayMs = 1200 }) => {
+const DotGrid: React.FC<DotGridProps> = ({ idleDelayMs = 3200 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const animationRef = useRef<number | null>(null)
   const layersRef = useRef<Layer[]>([])
-  const dprRef = useRef<number>(1)
   const sizeRef = useRef<{ width: number; height: number }>({ width: 0, height: 0 })
-  const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
+  const dprRef = useRef<number>(1)
+  const reducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
   const idleTimeoutRef = useRef<number | null>(null)
   const [isIdle, setIsIdle] = useState<boolean>(false)
-  const reducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const { isIdle: isIdleFromContext } = useIdle()
 
-  // Track user activity to toggle idle state (fallback if provider not used)
+  // Idle detection
   useEffect(() => {
     const scheduleIdle = () => {
       if (idleTimeoutRef.current) window.clearTimeout(idleTimeoutRef.current)
       idleTimeoutRef.current = window.setTimeout(() => setIsIdle(true), idleDelayMs)
     }
-
     const markActive = () => {
       if (isIdle) setIsIdle(false)
       scheduleIdle()
     }
-
     scheduleIdle()
-
     window.addEventListener('pointermove', markActive, { passive: true })
     window.addEventListener('pointerdown', markActive, { passive: true })
     window.addEventListener('wheel', markActive, { passive: true })
@@ -76,7 +67,6 @@ const Starfield: React.FC<StarfieldProps> = ({ idleDelayMs = 1200 }) => {
     window.addEventListener('touchstart', markActive, { passive: true })
     window.addEventListener('mouseenter', markActive)
     window.addEventListener('mouseleave', scheduleIdle)
-
     return () => {
       if (idleTimeoutRef.current) window.clearTimeout(idleTimeoutRef.current)
       window.removeEventListener('pointermove', markActive as EventListener)
@@ -92,10 +82,8 @@ const Starfield: React.FC<StarfieldProps> = ({ idleDelayMs = 1200 }) => {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    ctxRef.current = ctx
 
     const setCanvasSize = () => {
       const parent = canvas.parentElement
@@ -114,96 +102,77 @@ const Starfield: React.FC<StarfieldProps> = ({ idleDelayMs = 1200 }) => {
       ctx.reset?.()
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      // Recreate stars on resize for consistent density
-      const area = width * height
-      const base = clamp(Math.round(area / 20000), 40, 160) // base layer reference count
+      // Layers: subtle dots with different spacing and motion
+      const { pattern: p1, tileSize: t1 } = createDotTile(28, 1.1, 'rgba(0, 0, 0, 0.22)', dpr)
+      const { pattern: p2, tileSize: t2 } = createDotTile(40, 1.3, 'rgba(0, 0, 0, 0.15)', dpr)
+      const { pattern: p3, tileSize: t3 } = createDotTile(56, 1.5, 'rgba(0, 0, 0, 0.29)', dpr)
 
       layersRef.current = [
-        {
-          stars: createStars(base, width, height, [1.0, 1.8]),
-          velocityX: 12,
-          velocityY: 0,
-        },
-        {
-          stars: createStars(Math.round(base * 0.7), width, height, [0.8, 1.4]),
-          velocityX: -8,
-          velocityY: 5,
-        },
-        {
-          stars: createStars(Math.round(base * 0.5), width, height, [0.6, 1.0]),
-          velocityX: 5,
-          velocityY: -10,
-        },
+        { pattern: p1, tileSize: t1, velocityX: 8, velocityY: 0, offsetX: 0, offsetY: 0 },
+        { pattern: p2, tileSize: t2, velocityX: -5, velocityY: 3, offsetX: 0, offsetY: 0 },
+        { pattern: p3, tileSize: t3, velocityX: 3, velocityY: -6, offsetX: 0, offsetY: 0 },
       ]
     }
 
     setCanvasSize()
     const resizeObserver = new ResizeObserver(() => {
       setCanvasSize()
-      // Re-render once on resize to ensure visibility in reduced motion
       renderOnce()
     })
     if (canvas.parentElement) resizeObserver.observe(canvas.parentElement)
 
     let lastTime = performance.now()
 
+    const applyPatternTransform = (pattern: CanvasPattern, dpr: number, tx: number, ty: number) => {
+      if ('setTransform' in pattern && typeof (pattern as any).setTransform === 'function') {
+        const m = new DOMMatrix()
+          .scale(1 / dpr, 1 / dpr)
+          .translate(tx, ty)
+        ;(pattern as any).setTransform(m)
+      }
+    }
+
     const renderOnce = () => {
       const { width, height } = sizeRef.current
       if (width === 0 || height === 0) return
       ctx.clearRect(0, 0, width, height)
       for (const layer of layersRef.current) {
-        const { stars } = layer
-        for (let i = 0; i < stars.length; i++) {
-          const s = stars[i]
-          const alpha = clamp(s.baseAlpha * (0.85 + 0.15 * Math.sin(s.twinklePhase)), 0.2, 1)
-          ctx.fillStyle = `rgba(255,255,255,${alpha})`
-          ctx.fillRect(s.x, s.y, s.size, s.size)
-        }
+        applyPatternTransform(layer.pattern, dprRef.current, layer.offsetX, layer.offsetY)
+        ctx.fillStyle = layer.pattern
+        ctx.fillRect(0, 0, width, height)
       }
     }
 
     const draw = () => {
       const { width, height } = sizeRef.current
       if (width === 0 || height === 0) return
-
       const now = performance.now()
-      const deltaSec = clamp((now - lastTime) / 1000, 0, 0.033) // cap delta at ~33ms
+      const deltaSec = clamp((now - lastTime) / 1000, 0, 0.033)
       lastTime = now
 
-      // Clear with a subtle transparent pass to get slight trailing (very faint)
-      ctx.clearRect(0, 0, width, height)
-
-      // Render each layer
+      // Update offsets
       for (const layer of layersRef.current) {
-        const { stars, velocityX, velocityY } = layer
-        for (let i = 0; i < stars.length; i++) {
-          const s = stars[i]
-          // Update position
-          s.x += velocityX * deltaSec
-          s.y += velocityY * deltaSec
+        layer.offsetX += layer.velocityX * deltaSec
+        layer.offsetY += layer.velocityY * deltaSec
+        // Keep offsets bounded to prevent large numbers
+        if (layer.offsetX > layer.tileSize) layer.offsetX -= layer.tileSize
+        if (layer.offsetX < -layer.tileSize) layer.offsetX += layer.tileSize
+        if (layer.offsetY > layer.tileSize) layer.offsetY -= layer.tileSize
+        if (layer.offsetY < -layer.tileSize) layer.offsetY += layer.tileSize
+      }
 
-          // Wrap around edges
-          if (s.x < -2) s.x = width + 2
-          else if (s.x > width + 2) s.x = -2
-          if (s.y < -2) s.y = height + 2
-          else if (s.y > height + 2) s.y = -2
-
-          // Twinkle
-          s.twinklePhase += s.twinkleSpeed * deltaSec
-          const alpha = clamp(s.baseAlpha * (0.85 + 0.15 * Math.sin(s.twinklePhase)), 0.2, 1)
-
-          // Draw as small rect for performance
-          ctx.fillStyle = `rgba(255,255,255,${alpha})`
-          ctx.fillRect(s.x, s.y, s.size, s.size)
-        }
+      ctx.clearRect(0, 0, width, height)
+      for (const layer of layersRef.current) {
+        applyPatternTransform(layer.pattern, dprRef.current, layer.offsetX, layer.offsetY)
+        ctx.fillStyle = layer.pattern
+        ctx.fillRect(0, 0, width, height)
       }
 
       animationRef.current = requestAnimationFrame(draw)
     }
 
-    // Always render at least one static frame so it's visible
+    // Always draw a static frame
     renderOnce()
-
     const activeIdle = typeof isIdleFromContext === 'boolean' ? isIdleFromContext : isIdle
     if (!reducedMotion && activeIdle) {
       animationRef.current = requestAnimationFrame(draw)
@@ -219,11 +188,11 @@ const Starfield: React.FC<StarfieldProps> = ({ idleDelayMs = 1200 }) => {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className={`absolute inset-0 z-0 hidden dark:block pointer-events-none transition-opacity duration-500 ${(typeof isIdleFromContext === 'boolean' ? isIdleFromContext : isIdle) ? 'opacity-100' : 'opacity-0'}`}
+      className={`absolute inset-0 z-0 block dark:hidden pointer-events-none transition-opacity duration-500 ${(typeof isIdleFromContext === 'boolean' ? isIdleFromContext : isIdle) ? 'opacity-100' : 'opacity-0'}`}
     />
   )
 }
 
-export default Starfield
+export default DotGrid
 
 

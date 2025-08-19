@@ -1,7 +1,11 @@
 import React from 'react'
+import { useIdle } from '../context/IdleContext'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const Hero: React.FC = () => {
+  const { isIdle } = useIdle()
+  const heroCardDarkBg = isIdle ? 'dark:from-[#0b0e1a] dark:to-[#0b0e1a]' : 'dark:from-white/3 dark:to-white/4'
+  const heroCardLightBg = isIdle ? 'from-gray-50 to-gray-100' : 'from-black/[.03] to-black/[.04]'
   return (
     <AnimatePresence mode="wait">
       <section
@@ -56,15 +60,15 @@ const Hero: React.FC = () => {
           </motion.div>
 
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div className="p-3 rounded-2xl bg-black/[.05] dark:bg-white/3">
+            <div className="p-3 rounded-2xl bg-gray-100 dark:bg-white/3">
               <div className="text-xs">Reports / Day</div>
               <div className="text-2xl font-semibold mt-1">3,200+</div>
             </div>
-            <div className="p-3 rounded-2xl bg-black/[.05] dark:bg-white/3">
+            <div className="p-3 rounded-2xl bg-gray-100 dark:bg-white/3">
               <div className="text-xs">Years Experience</div>
               <div className="text-2xl font-semibold mt-1">2+</div>
             </div>
-            <div className="p-3 rounded-2xl bg-black/[.05] dark:bg-white/3">
+            <div className="p-3 rounded-2xl bg-gray-100 dark:bg-white/3">
               <div className="text-xs">Projects</div>
               <div className="text-2xl font-semibold mt-1">10+</div>
             </div>
@@ -77,7 +81,7 @@ const Hero: React.FC = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ duration: 0.6 }}
-            className="p-6 rounded-3xl bg-gradient-to-br from-black/[.03] to-black/[.04] border border-black/10 dark:from-white/3 dark:to-white/4 dark:border-white/6 shadow-2xl"
+            className={`p-6 rounded-3xl bg-gradient-to-br ${heroCardLightBg} border border-black/10 ${heroCardDarkBg} dark:border-white/6 shadow-2xl`}
           >
             <div className="h-56 rounded-xl bg-gradient-to-br from-[#061026] to-[#09122a] p-4 flex flex-col justify-between">
               <div className="flex items-center justify-between">
