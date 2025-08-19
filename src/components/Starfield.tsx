@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 type Star = {
   x: number
@@ -38,13 +38,54 @@ const createStars = (
   return stars
 }
 
-const Starfield: React.FC = () => {
+type StarfieldProps = {
+  idleDelayMs?: number
+}
+
+const Starfield: React.FC<StarfieldProps> = ({ idleDelayMs = 1200 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const animationRef = useRef<number | null>(null)
   const layersRef = useRef<Layer[]>([])
   const dprRef = useRef<number>(1)
   const sizeRef = useRef<{ width: number; height: number }>({ width: 0, height: 0 })
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
+  const idleTimeoutRef = useRef<number | null>(null)
+  const [isIdle, setIsIdle] = useState<boolean>(false)
   const reducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // Track user activity to toggle idle state
+  useEffect(() => {
+    const scheduleIdle = () => {
+      if (idleTimeoutRef.current) window.clearTimeout(idleTimeoutRef.current)
+      idleTimeoutRef.current = window.setTimeout(() => setIsIdle(true), idleDelayMs)
+    }
+
+    const markActive = () => {
+      if (isIdle) setIsIdle(false)
+      scheduleIdle()
+    }
+
+    scheduleIdle()
+
+    window.addEventListener('pointermove', markActive, { passive: true })
+    window.addEventListener('pointerdown', markActive, { passive: true })
+    window.addEventListener('wheel', markActive, { passive: true })
+    window.addEventListener('keydown', markActive)
+    window.addEventListener('touchstart', markActive, { passive: true })
+    window.addEventListener('mouseenter', markActive)
+    window.addEventListener('mouseleave', scheduleIdle)
+
+    return () => {
+      if (idleTimeoutRef.current) window.clearTimeout(idleTimeoutRef.current)
+      window.removeEventListener('pointermove', markActive as EventListener)
+      window.removeEventListener('pointerdown', markActive as EventListener)
+      window.removeEventListener('wheel', markActive as EventListener)
+      window.removeEventListener('keydown', markActive as EventListener)
+      window.removeEventListener('touchstart', markActive as EventListener)
+      window.removeEventListener('mouseenter', markActive as EventListener)
+      window.removeEventListener('mouseleave', scheduleIdle as EventListener)
+    }
+  }, [idleDelayMs, isIdle])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -52,6 +93,7 @@ const Starfield: React.FC = () => {
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
+    ctxRef.current = ctx
 
     const setCanvasSize = () => {
       const parent = canvas.parentElement
@@ -160,7 +202,7 @@ const Starfield: React.FC = () => {
     // Always render at least one static frame so it's visible
     renderOnce()
 
-    if (!reducedMotion) {
+    if (!reducedMotion && isIdle) {
       animationRef.current = requestAnimationFrame(draw)
     }
 
@@ -168,13 +210,13 @@ const Starfield: React.FC = () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
       resizeObserver.disconnect()
     }
-  }, [reducedMotion])
+  }, [reducedMotion, isIdle])
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="absolute inset-0 z-0 hidden dark:block pointer-events-none"
+      className={`absolute inset-0 z-0 hidden dark:block pointer-events-none transition-opacity duration-500 ${isIdle ? 'opacity-100' : 'opacity-0'}`}
     />
   )
 }
