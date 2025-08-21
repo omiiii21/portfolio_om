@@ -83,23 +83,17 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.6 }}
             className={`p-6 rounded-3xl bg-gradient-to-br ${heroCardLightBg} border border-black/10 ${heroCardDarkBg} dark:border-white/6 shadow-2xl`}
           >
-            <div className="h-56 rounded-xl bg-gradient-to-br from-[#061026] to-[#09122a] p-4 flex flex-col justify-between">
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-semibold  text-white">Live Demo</div>
-                <div className="text-xs text-gray-500 dark:text-white/60">Prototype</div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center">🐍</div>
-                <div>
-                  <div className="text-sm font-medium text-white">TCA Runner</div>
-                  <div className="text-xs text-gray-500 dark:text-white/60">
-                    ETL / Scheduler / Multiprocessing
-                  </div>
-                </div>
-              </div>
-              <div className="text-[13px] text-gray-500 dark:text-white/60">
-                Click a project to explore details and view architecture diagrams.
-              </div>
+            <div className="relative rounded-xl overflow-hidden">
+              <div className="w-full pt-[56.25%]" />
+              <video
+                className="absolute inset-0 w-full h-full object-cover"
+                src="/videos/avatar.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                aria-label="Hero video"
+              />
             </div>
           </motion.div>
 
