@@ -93,6 +93,8 @@ const Hero: React.FC = () => {
                 muted
                 playsInline
                 aria-label="Hero video"
+                preload="none"
+                poster="/images/thumb.jpg"
               />
             </div>
           </motion.div>
