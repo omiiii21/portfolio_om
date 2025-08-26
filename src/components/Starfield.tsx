@@ -204,8 +204,8 @@ const Starfield: React.FC<StarfieldProps> = ({ idleDelayMs = 1200 }) => {
     // Always render at least one static frame so it's visible
     renderOnce()
 
-    const activeIdle = typeof isIdleFromContext === 'boolean' ? isIdleFromContext : isIdle
-    if (!reducedMotion && activeIdle) {
+    // Animation runs continuously, not idle-gated
+    if (!reducedMotion) {
       animationRef.current = requestAnimationFrame(draw)
     }
 
@@ -219,7 +219,7 @@ const Starfield: React.FC<StarfieldProps> = ({ idleDelayMs = 1200 }) => {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className={`absolute inset-0 z-0 hidden dark:block pointer-events-none transition-opacity duration-500 ${(typeof isIdleFromContext === 'boolean' ? isIdleFromContext : isIdle) ? 'opacity-100' : 'opacity-0'}`}
+      className="absolute inset-0 z-0 hidden dark:block pointer-events-none opacity-100"
     />
   )
 }
