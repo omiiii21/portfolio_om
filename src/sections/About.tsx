@@ -10,6 +10,7 @@ const About: React.FC = () => {
   const mainLight = isIdle ? 'bg-gray-50' : 'bg-black/[.03]'
   const tileLight = isIdle ? 'bg-gray-100' : 'bg-black/[.05]'
   const asideLight = isIdle ? 'bg-gray-100' : 'bg-black/[.04]'
+  const RESUME_GDRIVE_ID = '175wxeMPlUFtxSFwT36x6XI5zgIfAzH4k'
   return (
     <section id="about" className="mt-14">
       <motion.h2 initial={{ x: -20, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} className="text-2xl font-semibold">
@@ -67,7 +68,7 @@ const About: React.FC = () => {
               <div className="transition-all duration-300 max-h-0 opacity-0 translate-y-2 group-hover:max-h-[520px] group-hover:opacity-100 group-hover:translate-y-0">
                 <div className="relative bg-white dark:bg-black">
                   <img
-                    src="https://drive.google.com/thumbnail?id=1fvurntzc3RPMGsz6s3UGczvaOUmUWnWz&sz=w2000"
+                    src={"https://drive.google.com/thumbnail?id=1fvurntzc3RPMGsz6s3UGczvaOUmUWnWz&sz=w2000"} 
                     alt="Resume preview"
                     className="w-full h-64 object-cover object-top"
                   />
@@ -75,7 +76,8 @@ const About: React.FC = () => {
                 </div>
                 <div className="py-3 flex items-center justify-center gap-4">
                   <a
-                    href="https://drive.google.com/file/d/1fvurntzc3RPMGsz6s3UGczvaOUmUWnWz/view"
+                    
+                    href={`https://drive.google.com/file/d/${RESUME_GDRIVE_ID}/view`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="View Resume"
@@ -85,7 +87,7 @@ const About: React.FC = () => {
                     {/* <span className="text-sm">View</span> */}
                   </a>
                   <a
-                    href="https://drive.google.com/uc?export=download&id=1fvurntzc3RPMGsz6s3UGczvaOUmUWnWz"
+                    href={`https://drive.google.com/uc?export=download&id=${RESUME_GDRIVE_ID}`}
                     aria-label="Download Resume"
                     className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-black/15 dark:border-white/10 hover:bg-black/[.05] dark:hover:bg-white/5 transition"
                   >
