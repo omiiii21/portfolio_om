@@ -10,7 +10,7 @@ const About: React.FC = () => {
   const mainLight = isIdle ? 'bg-gray-50' : 'bg-black/[.03]'
   const tileLight = isIdle ? 'bg-gray-100' : 'bg-black/[.05]'
   const asideLight = isIdle ? 'bg-gray-100' : 'bg-black/[.04]'
-  const RESUME_GDRIVE_ID = '175wxeMPlUFtxSFwT36x6XI5zgIfAzH4k'
+  const RESUME_GDRIVE_ID = '1v1F-Vz9bQgJ9IAtfY25oamB6_Od5hV2C'
   return (
     <section id="about" className="mt-14">
       <motion.h2 initial={{ x: -20, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} className="text-2xl font-semibold">
