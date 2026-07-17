@@ -1,36 +1,35 @@
 import type { Project } from '../types/portfolio'
 
+// TODO(Om): point `link` at the actual GitHub repos / live demos.
 export const projects: Project[] = [
   {
     title: 'You Betcha',
+    tag: 'Real-time betting exchange',
     blurb:
-      'Developed sports betting platform with memory-first architecture and asynchronous processing. Implemented custom order book with heapq-based priority queues achieving ~50ms per match operation. Built WebSocket market data distribution with Redis pub/sub and a real-time risk engine.',
-    badges: ['Python', 'Async', 'FastAPI', 'Redis', 'Kafka', 'PostgreSQL', 'Docker', 'WebSockets'],
-    tag: 'Betting Platform',
-    link: '#projects',
-    icon: '🎯',
-    accentColor: 'blue',
+      'Sports betting platform with a memory-first architecture: custom order book on heapq priority queues, WebSocket market-data distribution over Redis pub/sub, and a real-time risk engine — all fully asynchronous.',
+    impact: { value: '~50ms', label: 'per match operation' },
+    stack: ['Python', 'FastAPI', 'Redis', 'Kafka', 'PostgreSQL', 'WebSockets', 'Docker'],
+    link: 'https://github.com/omiiii21',
+    icon: 'orderbook',
+  },
+  {
+    title: 'Crypto Microstructure Surveillance',
+    tag: 'Market anomaly detection',
+    blurb:
+      'Surveillance platform monitoring bid-ask spreads, order-book depth, and basis drift across crypto derivatives venues. Dual-condition alerting (threshold + z-score) with plug-and-play exchange adapters and automatic gap recovery.',
+    impact: { value: '−90%', label: 'false-positive alerts vs static thresholds' },
+    stack: ['Python 3.12', 'FastAPI', 'WebSocket', 'Redis', 'TimescaleDB', 'Plotly.js', 'Docker'],
+    link: 'https://github.com/omiiii21',
+    icon: 'radar',
   },
   {
     title: 'StockSense',
+    tag: 'Trade automation research',
     blurb:
-      'Researched market mood index using factors like India VIX, OI, Volume, theta decay. Improved win rate from 42.8% → 80.42%. Built indicator-driven strategies yielding ~46.34% average gross profit across live and historical data; added price-action analysis via chart patterns.',
-    badges: ['TradingView', 'PineScript', 'Streak', 'NSE OI', 'Excel', 'Matplotlib'],
-    tag: 'Trading Automation',
-    link: '#projects',
-    icon: '📈',
-    accentColor: 'green',
-  },
-  {
-    title: 'Finfit',
-    blurb:
-      'Prototype of a gamified expense tracking and financial literacy app for young adults. Daily quizzes, customizable avatars, and intuitive tracking to encourage better saving and spending habits.',
-    badges: ['Figma', 'Python', 'Django REST', 'Excel'],
-    tag: 'Gamified Personal Finance',
-    link: '#projects',
-    icon: '🧩',
-    accentColor: 'purple',
+      'Market mood index research on India VIX, open interest, and volume, layered with MACD / RSI / VWAP signal logic. Raised win-trade accuracy from 42.8% to 80.42% with ~46% average gross profit on historical data.',
+    impact: { value: '80.4%', label: 'win rate, up from 42.8%' },
+    stack: ['TradingView', 'PineScript', 'Streak', 'NSE OI', 'Matplotlib'],
+    link: 'https://github.com/omiiii21',
+    icon: 'trending',
   },
 ]
-
-

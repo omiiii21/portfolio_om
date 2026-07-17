@@ -1,28 +1,37 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import SkillPill from '../components/SkillPill'
-import AnimatedHeading from '../components/motion/AnimatedHeading'
-import type { Skill } from '../types/portfolio'
+import SectionHeading from '../components/SectionHeading'
+import Reveal from '../components/motion/Reveal'
+import { skillGroups } from '../data/skills'
 
-type SkillsProps = { skills: Skill[] }
-
-const Skills: React.FC<SkillsProps> = ({ skills }) => {
+const Skills: React.FC = () => {
   return (
-    <section id="skills" className="mt-20" aria-labelledby="skills-heading">
-      <AnimatedHeading kicker="02 — Toolbox" id="skills-heading">
-        Skills &amp; Tech Stack
-      </AnimatedHeading>
-      <motion.div
-        className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
-        variants={{ visible: { transition: { staggerChildren: 0.07 } }, hidden: {} }}
-      >
-        {skills.map((s) => (
-          <SkillPill key={s.name} name={s.name} level={s.level} />
+    <section id="skills" className="scroll-mt-24 border-t border-line py-20 md:py-28" aria-labelledby="skills-heading">
+      <SectionHeading
+        index="06"
+        kicker="Toolkit"
+        title="What I reach for"
+        id="skills-heading"
+      />
+
+      <div className="mt-10 border-t border-line">
+        {skillGroups.map((group, i) => (
+          <Reveal key={group.group} delay={i * 0.04}>
+            <div className="grid grid-cols-1 gap-3 border-b border-line py-5 sm:grid-cols-[220px_1fr] sm:gap-8">
+              <h3 className="font-mono text-xs tracking-[0.16em] text-muted uppercase sm:pt-1.5">{group.group}</h3>
+              <ul className="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded-md border border-line bg-panel/60 px-3 py-1.5 text-sm text-ink/90"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
         ))}
-      </motion.div>
+      </div>
     </section>
   )
 }

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { Sun, Moon } from './icons'
 
 const THEME_KEY = 'theme'
 
 function getInitialTheme(): 'dark' | 'light' {
   if (typeof window === 'undefined') return 'dark'
-  const stored = localStorage.getItem(THEME_KEY) as 'dark' | 'light' | null
+  const stored = localStorage.getItem(THEME_KEY)
   if (stored === 'dark' || stored === 'light') return stored
-  // Default to dark for this site
+  // Dark-first site
   return 'dark'
 }
 
@@ -15,11 +16,7 @@ const ThemeToggle: React.FC = () => {
 
   useEffect(() => {
     const html = document.documentElement
-    const body = document.body
-    const apply = theme === 'dark'
-    html.classList.toggle('dark', apply)
-    body.classList.toggle('dark', apply)
-    html.setAttribute('data-theme', theme)
+    html.classList.toggle('dark', theme === 'dark')
     html.style.colorScheme = theme
     localStorage.setItem(THEME_KEY, theme)
   }, [theme])
@@ -27,26 +24,13 @@ const ThemeToggle: React.FC = () => {
   return (
     <button
       type="button"
-      aria-label="Toggle dark mode"
-      className="text-xs px-1 py-1 rounded-md border border-black/15 dark:border-white/10 hover:bg-black/[.05] dark:hover:bg-white/5 transition"
-      onClick={() => {
-        const next = theme === 'dark' ? 'light' : 'dark'
-        const html = document.documentElement
-        const body = document.body
-        const apply = next === 'dark'
-        html.classList.toggle('dark', apply)
-        body.classList.toggle('dark', apply)
-        html.setAttribute('data-theme', next)
-        html.style.colorScheme = next
-        localStorage.setItem(THEME_KEY, next)
-        setTheme(next)
-      }}
+      aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:border-line-strong hover:text-ink"
+      onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
     >
-      {theme === 'dark' ? '🌙' : '☀️'}
+      {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
     </button>
   )
 }
 
 export default ThemeToggle
-
-

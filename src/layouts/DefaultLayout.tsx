@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useScroll, useSpring, useMotionValueEvent } from 'framer-motion'
 import ThemeToggle from '../components/ThemeToggle'
-import AuroraBackground from '../components/AuroraBackground'
-import ScrollProgress from '../components/motion/ScrollProgress'
-import Magnetic from '../components/motion/Magnetic'
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import Ticker from '../components/Ticker'
+import { Menu, Close, Github, Linkedin } from '../components/icons'
+import { profile } from '../data/profile'
 
 const NAV_LINKS = [
-  { href: '#projects', label: 'Work' },
-  { href: '#skills', label: 'Skills' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#work', label: 'Work' },
+  { href: '#research', label: 'Research' },
   { href: '#about', label: 'About' },
 ] as const
 
-/** Tracks which section is currently in the middle band of the viewport. */
+/** Tracks which section currently sits in the middle band of the viewport. */
 function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string | null>(null)
 
@@ -35,91 +36,133 @@ function useActiveSection(ids: string[]) {
   return active
 }
 
+const LogoMark: React.FC = () => (
+  <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true" className="rounded-lg">
+    <rect width="64" height="64" rx="14" className="fill-ink" />
+    <path
+      d="M14 44 26 20l6 12 6-12 12 24"
+      fill="none"
+      className="stroke-canvas"
+      strokeWidth="5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
 type DefaultLayoutProps = {
   children: React.ReactNode
 }
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const [scrolled, setScrolled] = useState(false)
-  const { scrollY } = useScroll()
+  const { scrollYProgress, scrollY } = useScroll()
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 })
   useMotionValueEvent(scrollY, 'change', (y) => setScrolled(y > 24))
 
-  const active = useActiveSection(['projects', 'skills', 'about', 'contact'])
+  const active = useActiveSection(['experience', 'work', 'research', 'about', 'contact'])
 
   return (
-    <div className="min-h-screen relative font-sans bg-transparent text-gray-900 dark:text-white transition-colors duration-700 ease-in-out">
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded focus:bg-indigo-600 focus:text-white">Skip to content</a>
-      <ScrollProgress />
-      <AuroraBackground />
+    <div className="relative min-h-screen bg-canvas text-ink">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:font-medium focus:text-on-accent"
+      >
+        Skip to content
+      </a>
 
-      <motion.header
-        initial={{ y: -56, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.21, 0.65, 0.25, 1] }}
-        className={`sticky top-0 z-40 transition-all duration-500 ${
+      {/* Decorative graph-paper backdrop */}
+      <div className="bg-grid pointer-events-none fixed inset-0" aria-hidden="true" />
+
+      {/* Reading progress */}
+      <motion.div
+        className="fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-accent"
+        style={{ scaleX: progress }}
+        aria-hidden="true"
+      />
+
+      <header
+        className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'backdrop-blur-xl bg-white/70 dark:bg-[#05060b]/70 border-b border-black/[.06] dark:border-white/[.06] shadow-[0_8px_30px_rgba(0,0,0,0.04)]'
-            : 'bg-transparent border-b border-transparent'
+            ? 'border-b border-line bg-canvas/80 backdrop-blur-xl'
+            : 'border-b border-transparent bg-transparent'
         }`}
       >
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#main" className="flex items-center gap-3 group" aria-label="Back to top">
-            <motion.div
-              whileHover={{ rotate: -8, scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
-              transition={{ type: 'spring', stiffness: 320, damping: 14 }}
-              className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center font-bold text-black shadow-lg shadow-indigo-500/25"
-            >
-              OM
-            </motion.div>
-            <div>
-              <div className="text-sm font-medium">Om Mengshetti</div>
-              <div className="text-[12px] text-gray-500 dark:text-white/60">Quant • Data • Systems</div>
-            </div>
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 md:px-6">
+          <a href="#main" className="group flex items-center gap-3" aria-label="Om Mengshetti — back to top">
+            <LogoMark />
+            <span className="leading-tight">
+              <span className="block text-sm font-semibold tracking-tight">Om Mengshetti</span>
+              <span className="block font-mono text-[10px] tracking-[0.18em] text-muted uppercase">
+                Quant Engineer
+              </span>
+            </span>
           </a>
 
-          <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
+          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
-                className="relative text-sm px-3 py-1.5 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition"
                 href={link.href}
+                className={`relative rounded-md px-3 py-2 text-sm transition-colors hover:text-ink ${
+                  active === link.href ? 'text-ink' : 'text-muted'
+                }`}
               >
                 {link.label}
                 {active === link.href && (
                   <motion.span
                     layoutId="nav-active"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    className="absolute inset-x-2 -bottom-0.5 h-[2px] rounded-full bg-gradient-to-r from-cyan-400 to-indigo-500"
+                    className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-accent"
                   />
                 )}
               </a>
             ))}
-            <Magnetic strength={0.25} className="ml-2">
-              <a
-                className="shine inline-block text-sm px-4 py-1.5 rounded-md bg-gradient-to-r from-cyan-400 to-indigo-500 text-black font-medium shadow-md shadow-indigo-500/25"
-                href="#contact"
-              >
-                Contact
-              </a>
-            </Magnetic>
+            <a
+              href="#contact"
+              className="ml-2 inline-flex h-10 items-center rounded-lg bg-accent px-4 text-sm font-semibold text-on-accent transition-opacity hover:opacity-90"
+            >
+              Let's talk
+            </a>
             <div className="ml-2">
               <ThemeToggle />
             </div>
           </nav>
+
           <MobileNav />
         </div>
-      </motion.header>
+        <Ticker />
+      </header>
 
-      <main id="main" className="max-w-6xl mx-auto px-6 py-12">
+      <main id="main" className="relative mx-auto max-w-6xl px-5 md:px-6">
         {children}
       </main>
 
-      <footer className="py-8 border-t border-gray-200 dark:border-white/[.06] text-sm text-center transition-colors duration-700 ease-in-out">
-        <span className="text-gray-600 dark:text-white/60">
-          © {new Date().getFullYear()} Om Mengshetti — Built with{' '}
-          <span className="gradient-text font-medium">React, Tailwind & Framer Motion</span>
-        </span>
+      <footer className="relative border-t border-line">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 font-mono text-[11px] tracking-wider text-muted uppercase sm:flex-row md:px-6">
+          <span>© {new Date().getFullYear()} Om Mengshetti</span>
+          <span className="flex items-center gap-4">
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:text-ink"
+              aria-label="GitHub"
+            >
+              <Github size={16} />
+            </a>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:text-ink"
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={16} />
+            </a>
+          </span>
+          <span>React · TypeScript · Tailwind</span>
+        </div>
       </footer>
     </div>
   )
@@ -135,23 +178,13 @@ const MobileNav: React.FC = () => {
         <ThemeToggle />
         <button
           type="button"
-          aria-label="Open menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-md border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 transition"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-line text-ink transition-colors hover:border-line-strong"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-800 dark:text-white">
-            {open ? (
-              <path d="M18 6L6 18M6 6l12 12" />
-            ) : (
-              <>
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </>
-            )}
-          </svg>
+          {open ? <Close size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
@@ -160,7 +193,7 @@ const MobileNav: React.FC = () => {
           <>
             <motion.button
               aria-label="Close menu"
-              className="fixed inset-0 z-40 bg-black/30 dark:bg-black/50"
+              className="fixed inset-0 z-40 bg-black/40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -171,34 +204,30 @@ const MobileNav: React.FC = () => {
               id="mobile-menu"
               role="dialog"
               aria-modal="true"
-              className="fixed z-50 top-0 right-0 left-0 mt-[64px] mx-4 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0b0e1a] shadow-xl overflow-hidden"
-              initial={{ y: -16, opacity: 0, scale: 0.98 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: -16, opacity: 0, scale: 0.98 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+              aria-label="Navigation menu"
+              className="fixed inset-x-4 top-16 z-50 overflow-hidden rounded-xl border border-line bg-panel shadow-2xl"
+              initial={{ y: -12, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -12, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 380, damping: 32 }}
             >
-              <motion.nav
-                className="p-3"
-                onClick={() => setOpen(false)}
-                initial="closed"
-                animate="open"
-                variants={{ open: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } }, closed: {} }}
-              >
-                {[...NAV_LINKS, { href: '#contact', label: 'Contact' }].map((link) => (
-                  <motion.a
+              <nav className="p-3" aria-label="Mobile" onClick={() => setOpen(false)}>
+                {NAV_LINKS.map((link) => (
+                  <a
                     key={link.href}
-                    variants={{ closed: { opacity: 0, x: 16 }, open: { opacity: 1, x: 0 } }}
-                    className={
-                      link.href === '#contact'
-                        ? 'block px-3 py-2 mt-1 rounded-md bg-gradient-to-r from-cyan-400 to-indigo-500 text-black font-medium'
-                        : 'block px-3 py-2 rounded-md hover:bg-black/5 dark:hover:bg-white/10'
-                    }
                     href={link.href}
+                    className="block rounded-lg px-4 py-3 text-sm text-ink transition-colors hover:bg-panel-2"
                   >
                     {link.label}
-                  </motion.a>
+                  </a>
                 ))}
-              </motion.nav>
+                <a
+                  href="#contact"
+                  className="mt-2 block rounded-lg bg-accent px-4 py-3 text-center text-sm font-semibold text-on-accent"
+                >
+                  Let's talk
+                </a>
+              </nav>
             </motion.div>
           </>
         )}

@@ -2,16 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Om Mengshetti — Portfolio</title>
+    <title>Om Mengshetti — Quantitative Engineer</title>
+    <meta
+      name="description"
+      content="Om Mengshetti — Senior Quantitative Engineer at BestEx Research. Execution analytics, market impact models, and large-scale data pipelines for institutional trading. Published researcher. Forward-deployed by default."
+    />
+    <meta property="og:title" content="Om Mengshetti — Quantitative Engineer" />
+    <meta
+      property="og:description"
+      content="Execution analytics, market impact models, and the pipelines underneath — built for institutional trading, deployed alongside the people who use them."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <script>
-      (function() {
+      (function () {
         try {
           var stored = localStorage.getItem('theme');
-          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (stored === 'dark' || (!stored && prefersDark)) {
+          // Dark-first site: dark unless the visitor explicitly chose light.
+          if (stored !== 'light') {
             document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.style.colorScheme = 'light';
           }
         } catch (e) {}
       })();
