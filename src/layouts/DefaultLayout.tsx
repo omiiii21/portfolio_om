@@ -93,7 +93,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
             <LogoMark />
             <span className="leading-tight">
               <span className="block text-sm font-semibold tracking-tight">Om Mengshetti</span>
-              <span className="block font-mono text-[10px] tracking-[0.18em] text-muted uppercase">
+              <span className="block font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
                 Quant Engineer
               </span>
             </span>
@@ -131,7 +131,14 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 
           <MobileNav />
         </div>
-        <Ticker />
+        {/* Collapses once the reader scrolls — no permanent motion next to body text */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ${
+            scrolled ? 'max-h-0 opacity-0' : 'max-h-12 opacity-100'
+          }`}
+        >
+          <Ticker />
+        </div>
       </header>
 
       <main id="main" className="relative mx-auto max-w-6xl px-5 md:px-6">
@@ -205,7 +212,7 @@ const MobileNav: React.FC = () => {
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
-              className="fixed inset-x-4 top-16 z-50 overflow-hidden rounded-xl border border-line bg-panel shadow-2xl"
+              className="absolute inset-x-4 top-full z-50 mt-2 overflow-hidden rounded-xl border border-line bg-panel shadow-2xl"
               initial={{ y: -12, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -12, opacity: 0 }}

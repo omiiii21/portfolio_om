@@ -25,7 +25,7 @@ const Blotter: React.FC = () => {
         initial={{ opacity: 0, y: reduce ? 0 : 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35, duration: 0.7, ease: [0.21, 0.65, 0.25, 1] }}
-        className="relative overflow-hidden rounded-2xl border border-line bg-panel shadow-2xl shadow-black/20"
+        className="border-fluent relative overflow-hidden rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40"
       >
         {/* Title bar */}
         <div className="flex items-center gap-2 border-b border-line px-4 py-3">

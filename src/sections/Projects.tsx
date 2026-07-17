@@ -27,7 +27,7 @@ const Projects: React.FC = () => {
           const Icon = ICONS[project.icon]
           return (
             <Reveal key={project.title} delay={i * 0.08} className="h-full">
-              <article className="group flex h-full flex-col rounded-xl border border-line bg-panel/60 p-6 transition-colors hover:border-accent/50">
+              <article className="border-fluent card-glow group flex h-full flex-col rounded-xl p-6">
                 <div className="flex items-start justify-between">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-accent-soft text-accent">
                     <Icon size={22} />
@@ -49,14 +49,14 @@ const Projects: React.FC = () => {
                 <h3 className="mt-2 font-display text-xl font-semibold text-ink">{project.title}</h3>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{project.blurb}</p>
 
-                <div className="mt-5 rounded-lg bg-panel-2 px-4 py-3">
+                <div className="mt-5 rounded-lg bg-accent-soft px-4 py-3">
                   <p className="font-display text-2xl font-semibold tabular-nums text-accent">{project.impact.value}</p>
                   <p className="mt-0.5 font-mono text-[11px] tracking-wide text-muted">{project.impact.label}</p>
                 </div>
 
                 <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={`${project.title} stack`}>
                   {project.stack.map((tech) => (
-                    <li key={tech} className="rounded border border-line px-2 py-0.5 font-mono text-[10px] text-muted">
+                    <li key={tech} className="rounded border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
                       {tech}
                     </li>
                   ))}

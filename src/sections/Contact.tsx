@@ -33,8 +33,10 @@ const Contact: React.FC = () => {
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
     if (!serviceId || !templateId || !publicKey) {
-      console.error('EmailJS env vars missing')
-      await new Promise((r) => setTimeout(r, 300))
+      // No EmailJS config — fall back to the visitor's mail client instead of faking success
+      window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(
+        'Hello from your portfolio',
+      )}&body=${encodeURIComponent(`${data.message}\n\n— ${data.email}`)}`
       reset()
       return
     }
@@ -48,7 +50,7 @@ const Contact: React.FC = () => {
   }
 
   return (
-    <section id="contact" className="scroll-mt-24 border-t border-line py-20 md:py-28" aria-labelledby="contact-heading">
+    <section id="contact" className="tone-wash scroll-mt-24 border-t border-line py-20 md:py-28" aria-labelledby="contact-heading">
       <SectionHeading
         index="07"
         kicker="Contact"
@@ -71,12 +73,14 @@ const Contact: React.FC = () => {
                   autoComplete="email"
                   placeholder="you@company.com"
                   aria-invalid={!!errors.email || undefined}
+                  aria-describedby={errors.email ? 'email-error' : undefined}
                   {...register('email')}
                   className={inputClasses}
                 />
                 <AnimatePresence>
                   {errors.email && (
                     <motion.p
+                      id="email-error"
                       role="alert"
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
@@ -98,12 +102,14 @@ const Contact: React.FC = () => {
                   rows={6}
                   placeholder="What are you building? What's breaking?"
                   aria-invalid={!!errors.message || undefined}
+                  aria-describedby={errors.message ? 'message-error' : undefined}
                   {...register('message')}
                   className={inputClasses}
                 />
                 <AnimatePresence>
                   {errors.message && (
                     <motion.p
+                      id="message-error"
                       role="alert"
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
@@ -156,7 +162,7 @@ const Contact: React.FC = () => {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <aside className="rounded-xl border border-line bg-panel/60 p-6">
+          <aside className="border-fluent rounded-xl p-6">
             <h3 className="font-mono text-xs tracking-[0.16em] text-muted uppercase">Direct lines</h3>
             <ul className="mt-4 space-y-1">
               <li>

@@ -33,10 +33,18 @@ const CountUp: React.FC<CountUpProps> = ({ to, prefix = '', suffix = '', duratio
   }, [inView, to, duration, delay, reduce])
 
   return (
-    <span ref={ref} className={className}>
-      {prefix}
-      {value.toLocaleString()}
-      {suffix}
+    <span className={className}>
+      {/* Screen readers get the final value; the animated counter is decorative */}
+      <span className="sr-only">
+        {prefix}
+        {to.toLocaleString()}
+        {suffix}
+      </span>
+      <span ref={ref} aria-hidden="true">
+        {prefix}
+        {value.toLocaleString()}
+        {suffix}
+      </span>
     </span>
   )
 }

@@ -64,7 +64,8 @@
 --------------------------------------------------------------------------- */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px;
+  /* Anchor offset comes from scroll-mt-* on each section — no global padding,
+     so the offset isn't applied twice. */
 }
 
 body {
@@ -103,6 +104,47 @@ button,
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, black 30%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, black 30%, transparent 100%);
+}
+
+/* ---------------------------------------------------------------------------
+   Fluent accents — gradient hairlines, tonal washes, soft glows.
+   Used sparingly: cards, the hero, and the blotter.
+--------------------------------------------------------------------------- */
+.border-fluent {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent) 40%, var(--line)) 0%,
+        var(--line) 38%,
+        var(--line) 62%,
+        color-mix(in srgb, var(--accent) 22%, var(--line)) 100%
+      )
+      border-box;
+}
+
+.card-glow {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card-glow:hover {
+  box-shadow: 0 10px 44px -14px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.tone-wash {
+  background-image: radial-gradient(60% 44% at 50% 0%, var(--accent-soft), transparent 72%);
+}
+
+.text-fluent {
+  background-image: linear-gradient(
+    92deg,
+    var(--accent) 0%,
+    color-mix(in srgb, var(--accent) 60%, #38bdf8) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ---------------------------------------------------------------------------

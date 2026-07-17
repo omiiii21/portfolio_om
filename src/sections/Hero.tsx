@@ -16,7 +16,7 @@ const Hero: React.FC = () => {
   const reduce = useReducedMotion() ?? false
 
   return (
-    <section className="pt-14 pb-20 md:pt-20 md:pb-28" aria-labelledby="hero-heading">
+    <section className="tone-wash pt-14 pb-20 md:pt-20 md:pb-28" aria-labelledby="hero-heading">
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <motion.p
@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
           >
             Systems that trade.
             <br />
-            <span className="text-accent">Research that ships.</span>
+            <span className="text-fluent">Research that ships.</span>
           </motion.h1>
 
           <motion.p {...fadeUp(reduce, 0.22)} className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
@@ -89,7 +89,7 @@ const Hero: React.FC = () => {
       {/* Proof strip */}
       <motion.dl
         {...fadeUp(reduce, 0.5)}
-        className="mt-16 grid grid-cols-2 divide-line overflow-hidden rounded-xl border border-line bg-panel/60 sm:grid-cols-4 sm:divide-x"
+        className="border-fluent mt-16 grid grid-cols-2 divide-line overflow-hidden rounded-xl sm:grid-cols-4 sm:divide-x"
       >
         {heroStats.map((stat) => (
           <div key={stat.label} className="flex flex-col-reverse gap-1 px-5 py-5">

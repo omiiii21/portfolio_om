@@ -18,12 +18,16 @@ const Row: React.FC<{ ariaHidden?: boolean }> = ({ ariaHidden }) => (
   </div>
 )
 
-/** Market-data style marquee of career numbers. Pauses on hover; static under reduced motion. */
+/**
+ * Market-data style marquee of career numbers. Pauses on hover; static under
+ * reduced motion. Decorative: every number also appears in a section below,
+ * so it is hidden from screen readers entirely.
+ */
 const Ticker: React.FC = () => {
   return (
     <div
       className="ticker relative overflow-hidden border-b border-line bg-panel/70 backdrop-blur"
-      aria-label="Career highlights ticker"
+      aria-hidden="true"
     >
       <div className="ticker-track flex w-max">
         <Row />

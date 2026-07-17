@@ -24,12 +24,12 @@ const Recommendations: React.FC = () => {
         {recommendations.map((rec, i) => (
           <Reveal key={`${rec.name}-${i}`} delay={i * 0.08} className="h-full">
             <figure
-              className={`flex h-full flex-col rounded-xl border p-6 ${
-                rec.placeholder ? 'border-dashed border-line-strong bg-transparent' : 'border-line bg-panel/60'
+              className={`flex h-full flex-col rounded-xl p-6 ${
+                rec.placeholder ? 'border border-dashed border-line-strong bg-transparent' : 'border-fluent card-glow'
               }`}
             >
               {rec.placeholder && (
-                <p className="mb-4 inline-flex w-fit rounded bg-amber-500/15 px-2 py-1 font-mono text-[10px] font-semibold tracking-wider text-amber-600 uppercase dark:text-amber-400">
+                <p className="mb-4 inline-flex w-fit rounded bg-amber-500/15 px-2 py-1 font-mono text-[11px] font-semibold tracking-wider text-amber-700 uppercase dark:text-amber-400">
                   Sample — paste real quote
                 </p>
               )}

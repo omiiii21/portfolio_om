@@ -41,7 +41,7 @@ const About: React.FC = () => {
       <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {PRINCIPLES.map((principle, i) => (
           <Reveal key={principle.title} delay={i * 0.07} className="h-full">
-            <article className="h-full rounded-xl border border-line bg-panel/60 p-6">
+            <article className="border-fluent card-glow h-full rounded-xl p-6">
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-accent-soft text-accent">
                 <principle.icon size={22} />
               </span>
